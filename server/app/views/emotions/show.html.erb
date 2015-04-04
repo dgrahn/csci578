@@ -7,12 +7,12 @@
 
 <p>
   <strong>User:</strong>
-  <%= @emotion.user_id %>
+  <%= @emotion.user.name %>
 </p>
 
 <p>
   <strong>Post:</strong>
-  <%= @emotion.post_id %>
+  <%= @emotion.post.text %>
 </p>
 
 <%= link_to 'Edit', edit_emotion_path(@emotion) %> |

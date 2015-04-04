@@ -6,31 +6,14 @@
     <li><%= link_to "Edit User", edit_user_registration_path %></li>
   </ul>
 
-<table>
-  <tr>
-    <th>Grin</th>
-    <td><%= Emotion::GRIN %></td>
-  </tr>
-  <tr>
-    <th>Smile</th>
-    <td><%= Emotion::SMILE %></td>
-  </tr>
-  <tr>
-    <th>Beam</th>
-    <td><%= Emotion::BEAM %></td>
-  </tr>
-  <tr>
-    <th>Smirk</th>
-    <td><%= Emotion::SMIRK %></td>
-  </tr>
-  <tr>
-    <th>Frown</th>
-    <td><%= Emotion::FROWN %></td>
-  </tr>
-</table>
-
 <h1>Posts</h1>
   <ul>
     <li><%= link_to "Index", posts_path %></li>
     <li><%= link_to "New", new_post_path %></li>
+  </ul>
+
+<h1>Emotions</h1>
+  <ul>
+    <li><%= link_to "Index", emotions_path %></li>
+    <li><%= link_to "New", new_emotion_path %></li>
   </ul>

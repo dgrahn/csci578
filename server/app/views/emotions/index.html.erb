@@ -14,8 +14,8 @@
     <% @emotions.each do |emotion| %>
       <tr>
         <td><%= emotion.emotion %></td>
-        <td><%= emotion.user_id %></td>
-        <td><%= emotion.post_id %></td>
+        <td><%= emotion.user.name %></td>
+        <td><%= emotion.post.text %></td>
         <td><%= link_to 'Show', emotion %></td>
         <td><%= link_to 'Edit', edit_emotion_path(emotion) %></td>
         <td><%= link_to 'Destroy', emotion, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -13,15 +13,15 @@
 
   <div class="field">
     <%= f.label :emotion %><br>
-    <%= f.text_field :emotion %>
+    <%= f.select :emotion, options_for_select(Emotion::ALL) %>
   </div>
   <div class="field">
     <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
+    <%= f.collection_select :user_id, User.all, :id, :name %>
   </div>
   <div class="field">
     <%= f.label :post_id %><br>
-    <%= f.number_field :post_id %>
+    <%= f.collection_select :post_id, Post.all, :id, :text %>
   </div>
   <div class="actions">
     <%= f.submit %>

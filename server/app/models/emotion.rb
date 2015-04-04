@@ -6,6 +6,14 @@ class Emotion < ActiveRecord::Base
   BEAM  = ['1F606'.hex].pack("U*") # Smiling face with open mouth and tightly-closed eyes
   SMIRK = ['1F60F'.hex].pack("U*") # Smirking face
   FROWN = ['1F61E'.hex].pack("U*") # Dissappointed face
+ 
+  ALL   = [
+            ["Grin", GRIN],
+            ["Smile", SMILE],
+            ["Beam", BEAM],
+            ["Smirk", SMIRK],
+            ["Frown", FROWN]
+          ]
 
   belongs_to :post
   belongs_to :user
