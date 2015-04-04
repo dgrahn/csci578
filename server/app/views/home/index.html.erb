@@ -6,37 +6,26 @@
     <li><%= link_to "Edit User", edit_user_registration_path %></li>
   </ul>
 
-<%  
-
-  # List: http://apps.timwhitlock.info/emoji/tables/unicode
-  grin  = create_emoji '1F601' # Grinning face with smiling eyes
-  smile = create_emoji '1F603' # Smiling face with open mouth
-  beam  = create_emoji '1F606' # Smiling face with open mouth and tightly-closed eyes
-  smirk = create_emoji '1F60F' # Smirking face
-  frown = create_emoji '1F61E' # Dissappointed face
-
-%>
-
 <table>
   <tr>
     <th>Grin</th>
-    <td><%= grin %></td>
+    <td><%= Emotion::GRIN %></td>
   </tr>
   <tr>
     <th>Smile</th>
-    <td><%= smile %></td>
+    <td><%= Emotion::SMILE %></td>
   </tr>
   <tr>
     <th>Beam</th>
-    <td><%= beam %></td>
+    <td><%= Emotion::BEAM %></td>
   </tr>
   <tr>
     <th>Smirk</th>
-    <td><%= smirk %></td>
+    <td><%= Emotion::SMIRK %></td>
   </tr>
   <tr>
     <th>Frown</th>
-    <td><%= frown %></td>
+    <td><%= Emotion::FROWN %></td>
   </tr>
 </table>
 
