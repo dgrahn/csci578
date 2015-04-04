@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :emotions
+
+  resources :posts
+
   get 'home/index'
 
   devise_for :users, controllers: {
-    sessions: 'sessions'
+    registrations: 'user/registrations'
   }
   
   # The priority is based upon order of creation: first created -> highest priority.

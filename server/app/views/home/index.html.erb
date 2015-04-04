@@ -1,2 +1,47 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Users</h1>
+  <ul>
+    <li><%= link_to "Sign In", new_user_session_path %></li>
+    <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
+    <li><%= link_to "New User", new_user_registration_path %></li>
+    <li><%= link_to "Edit User", edit_user_registration_path %></li>
+  </ul>
+
+<%  
+
+  # List: http://apps.timwhitlock.info/emoji/tables/unicode
+  grin  = create_emoji '1F601' # Grinning face with smiling eyes
+  smile = create_emoji '1F603' # Smiling face with open mouth
+  beam  = create_emoji '1F606' # Smiling face with open mouth and tightly-closed eyes
+  smirk = create_emoji '1F60F' # Smirking face
+  frown = create_emoji '1F61E' # Dissappointed face
+
+%>
+
+<table>
+  <tr>
+    <th>Grin</th>
+    <td><%= grin %></td>
+  </tr>
+  <tr>
+    <th>Smile</th>
+    <td><%= smile %></td>
+  </tr>
+  <tr>
+    <th>Beam</th>
+    <td><%= beam %></td>
+  </tr>
+  <tr>
+    <th>Smirk</th>
+    <td><%= smirk %></td>
+  </tr>
+  <tr>
+    <th>Frown</th>
+    <td><%= frown %></td>
+  </tr>
+</table>
+
+<h1>Posts</h1>
+  <ul>
+    <li><%= link_to "Index", posts_path %></li>
+    <li><%= link_to "New", new_post_path %></li>
+  </ul>
