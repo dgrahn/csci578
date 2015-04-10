@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
          
   has_many :posts
   has_and_belongs_to_many :audiences, -> { uniq }
+  
+  has_and_belongs_to_many :pals,
+    :join_table => 'pals',
+    :foreign_key => 'source_user_id',
+    :association_foreign_key => 'target_user_id'
          
   def name
     given_name + " " + surname

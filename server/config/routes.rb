@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :pals
+
   resources :audiences
 
   resources :environments

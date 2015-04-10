@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Source user:</strong>
+  <%= @pal.source_user_id %>
+</p>
+
+<p>
+  <strong>Target user:</strong>
+  <%= @pal.target_user_id %>
+</p>
+
+<%= link_to 'Edit', edit_pal_path(@pal) %> |
+<%= link_to 'Back', pals_path %>

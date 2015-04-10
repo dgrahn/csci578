@@ -18,6 +18,9 @@ u2 = User.create :given_name => "Gwendolyn",
                  :email      => "gwendolyn@grahn.us",
                  :password   => "licorice",
                  :password_confirmation => "licorice"
+
+Pal.create :source => u1, :target => u2
+Pal.create :source => u2, :target => u1
             
 hc = Audience.create :name => "House Church"
 hc.users << u1

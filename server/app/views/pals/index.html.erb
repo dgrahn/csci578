@@ -1,0 +1,25 @@
+<h1>Pals</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Source user</th>
+      <th>Target user</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pals.each do |pal| %>
+      <tr>
+        <td><%= pal.source.name %></td>
+        <td><%= pal.target.name %></td>
+        <td><%= link_to 'Show', pal %></td>
+        <td><%= link_to 'Edit', edit_pal_path(pal) %></td>
+        <td><%= link_to 'Destroy', pal, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Pal', new_pal_path %>
