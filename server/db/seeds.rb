@@ -11,3 +11,9 @@ User.create :given_name => "Dan",
             :email      => "dan@grahn.us",
             :password   => "licorice",
             :password_confirmation => "licorice"
+
+User.create :given_name => "Gwendolyn",
+            :surname    => "Grahn",
+            :email      => "gwendolyn@grahn.us",
+            :password   => "licorice",
+            :password_confirmation => "licorice"

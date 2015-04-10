@@ -1,26 +1,38 @@
 class Generator
   
-  @keepGoing = false
+  @@keepGoing = false
   
-  def is_generating?
-    @keepGoing
+  def self.start
+    @@keepGoing = true
+
+    Thread.new do
+      generate
+    end
   end
   
-  def toggle
-    @keepGoing = @keepGoing ? false : true
-    puts "Keep Going = #{@keepGoing}"
-    generate
+  def self.is_started?
+    @@keepGoing
   end
   
-  def generate
-    while is_generating?
-      puts "#################################"
+  def self.stop
+    @@keepGoing = false
+  end
+  
+  def self.toggle
+    if is_started?
+      stop
+    else
+      start
+    end
+  end
+  
+  def self.generate
+    while @@keepGoing
+      puts "##############################"
       Post.generate
       
       if rand(1..10) == 5
         User.generate
-      else
-        puts "Not generating user"
       end
       
       delay = rand(1..4)

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :posts
 
   get 'home/index'
-  get 'home/random'
+  get 'home/generate'
 
   devise_for :users, controllers: {
     registrations: 'user/registrations'

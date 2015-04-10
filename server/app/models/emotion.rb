@@ -20,6 +20,7 @@ class Emotion < ActiveRecord::Base
   
   validates_presence_of :post
   validates_presence_of :user
+  validates_presence_of :emotion
   
   def self.generate
     emotion = Emotion.new
