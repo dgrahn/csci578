@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
          
+  has_many :posts
+  has_and_belongs_to_many :audiences, -> { uniq }
+         
   def name
     given_name + " " + surname
   end
@@ -16,6 +19,7 @@ class User < ActiveRecord::Base
     user = User.create :given_name => Faker::Name.first_name,
                        :surname    => Faker::Name.last_name,
                        :email      => Faker::Internet.email,
+                       :image      => "user-#{rand(1..5)}.png",
                        :password   => "password",
                        :password_confirmation => "password"
 

@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
 
   belongs_to :user
+  belongs_to :audience
   has_many :emotions
   has_many :environments
   
@@ -39,6 +40,11 @@ class Post < ActiveRecord::Base
       Environment.create :post    => post,
                          :sensor  => Environment::ALL.sample,
                          :reading => rand() * 100
+    end
+    
+    # Create audience
+    if rand(0..3) == 0
+      post.audience = Audience.random
     end
     
     post.save!

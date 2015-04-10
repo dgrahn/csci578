@@ -31,8 +31,14 @@ class Generator
       puts "##############################"
       Post.generate
       
-      if rand(1..10) == 5
+      if rand(1..8) == 5
+        puts "Creating User UUUUUUUUUUUUUUUUUUUU"
         User.generate
+      end
+      
+      if rand(1..10) == 5
+        puts "Creating Audience AAAAAAAAAAAAAAAAAAAA"
+        Audience.generate
       end
       
       delay = rand(1..4)

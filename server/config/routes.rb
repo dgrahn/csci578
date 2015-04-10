@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :audiences
+
   resources :environments
 
   resources :emotions

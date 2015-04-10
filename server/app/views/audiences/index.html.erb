@@ -1,0 +1,27 @@
+<h1>Audiences</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+			<th>User Count</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @audiences.each do |audience| %>
+      <tr>
+        <td><%= audience.name %></td>
+				<td><%= audience.users.length %></td>
+        <td><%= link_to 'Show', audience %></td>
+        <td><%= link_to 'Edit', edit_audience_path(audience) %></td>
+        <td><%= link_to 'Destroy', audience, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Audience', new_audience_path %>

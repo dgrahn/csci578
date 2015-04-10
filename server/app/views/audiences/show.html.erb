@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @audience.name %>
+</p>
+
+<ul>
+	<% @audience.users.each do |user| %>
+	 <li><%= user.name %></li>
+	<% end %>
+</ul>
+
+<%= link_to 'Edit', edit_audience_path(@audience) %> |
+<%= link_to 'Back', audiences_path %>

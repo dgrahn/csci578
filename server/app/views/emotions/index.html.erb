@@ -1,12 +1,12 @@
 <h1>Listing emotions</h1>
 
-<table>
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>Emotion</th>
       <th>User</th>
       <th>Post</th>
-      <th colspan="3"></th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -18,7 +18,7 @@
         <td><%= emotion.post.text %></td>
         <td><%= link_to 'Show', emotion %></td>
         <td><%= link_to 'Edit', edit_emotion_path(emotion) %></td>
-        <td><%= link_to 'Destroy', emotion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', emotion, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -6,14 +6,19 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create :given_name => "Dan",
-            :surname    => "Grahn",
-            :email      => "dan@grahn.us",
-            :password   => "licorice",
-            :password_confirmation => "licorice"
+u1 = User.create :given_name => "Dan",
+                 :surname    => "Grahn",
+                 :image      => "dan.png",
+                 :email      => "dan@grahn.us",
+                 :password   => "licorice",
+                 :password_confirmation => "licorice"
 
-User.create :given_name => "Gwendolyn",
-            :surname    => "Grahn",
-            :email      => "gwendolyn@grahn.us",
-            :password   => "licorice",
-            :password_confirmation => "licorice"
+u2 = User.create :given_name => "Gwendolyn",
+                 :surname    => "Grahn",
+                 :email      => "gwendolyn@grahn.us",
+                 :password   => "licorice",
+                 :password_confirmation => "licorice"
+            
+hc = Audience.create :name => "House Church"
+hc.users << u1
+hc.users << u2

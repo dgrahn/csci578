@@ -14,11 +14,6 @@
  *= require_self
  */
  
-table th {
-  text-align: right;
-  padding: 0.1em 0.5em;
-}
-
 body {
   margin: 1em;
 }
@@ -27,4 +22,9 @@ body {
 	margin: 0 0 1em;
 	font-weight: bold;
 	font-size: 1.5em;
+}
+
+.navbar img {
+	display: block;
+	height: 100%;
 }
