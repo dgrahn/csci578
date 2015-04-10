@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		  <%= post.user.name %>
+			<%= post.author_emotions.map { |e| e.emotion }.join(" ") %>
+			<span class="pull-right"><em><%= post.created_at.to_formatted_s :short %></em></span>
+	</div>
+	<div class="panel-body">
+		<p><%= post.text %></p>
+		<div class="emotions"><%= render post.other_emotions %></div>
+	</div>
+</div>

@@ -13,7 +13,6 @@
  *= require_tree .
  *= require_self
  */
-
  
 table th {
   text-align: right;
@@ -24,14 +23,8 @@ body {
   margin: 1em;
 }
 
-#bar {
-  background: #222;
-  color: #FFF;
-  margin: -1em -1em 1em;
-  padding: 0.5em 1em;
-}
-
-#bar a {
-  float: right;
-  color: #FFF;
+.panel-body h2 {
+	margin: 0 0 1em;
+	font-weight: bold;
+	font-size: 1.5em;
 }

@@ -17,5 +17,22 @@ class Emotion < ActiveRecord::Base
 
   belongs_to :post
   belongs_to :user
+  
+  validates_presence_of :post
+  validates_presence_of :user
+  
+  def self.generate
+    emotion = Emotion.new
+    emotion.emotion = ALL.sample.first
+    emotion.user = User.random
+    emotion.save!
+      
+    puts "Generating: Emotion"
+    puts "Type = #{emotion.last}"
+    puts "User = #{emotion.user}"
+    puts "Post = #{emotion.post.id}"
+    
+    post
+  end
 
 end

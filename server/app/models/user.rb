@@ -8,4 +8,20 @@ class User < ActiveRecord::Base
     given_name + " " + surname
   end
 
+  def self.random
+    User.offset(rand(User.count)).first
+  end
+  
+  def self.generate
+    user = User.create :given_name => Faker::Name.first_name,
+                       :surname    => Faker::Name.last_name,
+                       :email      => Faker::Internet.email,
+                       :password   => "password",
+                       :password_confirmation => "password"
+
+    puts "Generating: User"
+    puts "Name  = #{user.name}"
+    puts "Email = #{user.email}"
+  end
+
 end
