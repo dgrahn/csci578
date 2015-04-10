@@ -4,26 +4,38 @@
 </div>
 
 <table class="table">
+	<thead>
+		<tr>
+			<th></th>
+			<th>User</th>
+			<th>All</th>
+		</tr>
+	</thead>
 	<tbody>
 		<tr>
 			<th>Posts</th>
 			<td><%= current_user.posts.length %></td>
+			<td><%= Post.count %></td>
 		</tr>
 		<tr>
 			<th>Emotions</th>
 			<td><%= current_user.emotions.length %></td>
+			<td><%= Emotion.count %></td>
 		</tr>
 		<tr>
 			<th>Environments</th>
 			<td><%= current_user.environments.length %></td>
+			<td><%= Environment.count %></td>
 		</tr>
 		<tr>
 			<th>Audiences</th>
 			<td><%= current_user.audiences.length %></td>
+			<td><%= Audience.count %></td>
 		</tr>
 		<tr>
 			<th>Pals</th>
 			<td><%= current_user.pals.length %></td>
+			<td><%= Pal.count %></td>
 		</tr>
 	</tbody>
 </table>

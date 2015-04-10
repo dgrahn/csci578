@@ -29,7 +29,7 @@ class Post < ActiveRecord::Base
     post.user = User.random
       
     if [true, false].sample
-      Emotion.create :user    => Post.user,
+      Emotion.create :user    => post.user,
                      :post    => post,
                      :emotion => Emotion::ALL.sample.last
     end

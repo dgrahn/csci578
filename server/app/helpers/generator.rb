@@ -31,12 +31,12 @@ class Generator
       puts "##############################"
       Post.generate
       
-      if rand(1..8) == 1
+      if rand(1..3) == 1
         puts "UUUUUUUUUUUUUUUUUUUU Creating User"
         User.generate
       end
       
-      if rand(1..10) == 1
+      if rand(1..5) == 1
         puts "AAAAAAAAAAAAAAAAAAAA Creating Audience"
         Audience.generate
       end

@@ -10,10 +10,24 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :audiences, -> { uniq }
   
   has_and_belongs_to_many :pals,
-    :class_name => 'User',
-    :join_table => :pals,
-    :foreign_key => :source_user_id,
-    :association_foreign_key => :target_user_id
+                          :class_name => 'User',
+                          :join_table => :pals,
+                          :foreign_key => :source_user_id,
+                          :association_foreign_key => :target_user_id
+
+  has_and_belongs_to_many :subscriptions,
+                          :class_name => 'User',
+                          :join_table => :subscriptions,
+                          :foreign_key => :source_user_id,
+                          :association_foreign_key => :target_user_id
+
+  has_and_belongs_to_many :subscribers,
+                          :class_name => 'User',
+                          :join_table => :subscriptions,
+                          :foreign_key => :target_user_id,
+                          :association_foreign_key => :source_user_id
+                          
+  has_many :alerts
          
   def name
     given_name + " " + surname
