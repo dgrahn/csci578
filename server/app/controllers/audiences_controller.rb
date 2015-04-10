@@ -1,5 +1,5 @@
 class AudiencesController < ApplicationController
-  before_action :set_audience, only: [:show, :edit, :update, :destroy]
+  before_action :set_audience, :only => [:show, :edit, :update, :destroy]
 
   respond_to :html
 

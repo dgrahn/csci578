@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :alerts
-
   resources :subscriptions
 
   resources :pals
@@ -16,8 +14,9 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'home/generate'
+  get 'user/:id/alerts', :to => 'alerts#user', :as => :user_alerts
 
-  devise_for :users, controllers: {
+  devise_for :users, :controllers => {
     registrations: 'user/registrations'
   }
   

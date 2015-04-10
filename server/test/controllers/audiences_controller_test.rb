@@ -18,30 +18,30 @@ class AudiencesControllerTest < ActionController::TestCase
 
   test "should create audience" do
     assert_difference('Audience.count') do
-      post :create, audience: { name: @audience.name }
+      post :create, :audience => { :name => @audience.name }
     end
 
     assert_redirected_to audience_path(assigns(:audience))
   end
 
   test "should show audience" do
-    get :show, id: @audience
+    get :show, :id => @audience
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @audience
+    get :edit, :id => @audience
     assert_response :success
   end
 
   test "should update audience" do
-    patch :update, id: @audience, audience: { name: @audience.name }
+    patch :update, :id => @audience, :audience => { :name => @audience.name }
     assert_redirected_to audience_path(assigns(:audience))
   end
 
   test "should destroy audience" do
     assert_difference('Audience.count', -1) do
-      delete :destroy, id: @audience
+      delete :destroy, :id => @audience
     end
 
     assert_redirected_to audiences_path

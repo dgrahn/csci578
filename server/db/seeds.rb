@@ -22,6 +22,10 @@ u2 = User.create :given_name => "Gwendolyn",
 
 Pal.create :source => u1, :target => u2
 Pal.create :source => u2, :target => u1
+
+Subscription.create :source => u1, :target => u2
+
+Post.create :user => u2, :text => "Hey all!"
             
 hc = Audience.create :name => "House Church"
 hc.users << u1

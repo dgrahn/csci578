@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def self.random
-    User.offset(rand(User.count - 1)).first
+    User.offset(rand(User.count)).first
   end
   
   def self.generate

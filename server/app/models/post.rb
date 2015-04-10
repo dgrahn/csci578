@@ -5,6 +5,8 @@ class Post < ActiveRecord::Base
   has_many :emotions
   has_many :environments
   
+  after_create :create_alerts
+  
   # Get most recent 20 posts
   def self.recent
     Post.order(:id => :desc).limit(20)
@@ -54,6 +56,17 @@ class Post < ActiveRecord::Base
     end
     
     post.save!
+  end
+  
+  private
+  
+  # Create an alert for each of the users subscribed to the author
+  def create_alerts
+    
+    user.subscribers.each do |s|
+      Alert.create! :post => self, :user => s
+    end
+    
   end
 
 end

@@ -1,6 +1,10 @@
 <div id="profile">
   <span class="pull-left"><%= profile_image current_user %></span>
   <h1><%= current_user.name %></h1>
+	
+	<%= link_to user_alerts_path(current_user) do %>
+	 <span class="badge"><%= current_user.alerts.count %></span>
+	<% end %>
 </div>
 
 <table class="table">
