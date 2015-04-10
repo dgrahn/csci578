@@ -28,3 +28,23 @@ body {
 	display: block;
 	height: 100%;
 }
+
+.profile {
+	border: 3px solid #1693A5;
+}
+
+.friends {
+	border-color: #FBB829;
+}
+
+#sidebar #profile {
+	margin-bottom: 2em;
+}
+
+#sidebar .profile {
+	margin-right: 0.5em;
+}
+
+#sidebar h1 {
+	margin: 0;
+}

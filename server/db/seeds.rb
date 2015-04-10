@@ -15,6 +15,7 @@ u1 = User.create :given_name => "Dan",
 
 u2 = User.create :given_name => "Gwendolyn",
                  :surname    => "Grahn",
+                 :image      => "user-2.png",
                  :email      => "gwendolyn@grahn.us",
                  :password   => "licorice",
                  :password_confirmation => "licorice"

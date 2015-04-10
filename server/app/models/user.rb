@@ -5,12 +5,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
          
   has_many :posts
+  has_many :emotions
+  has_many :environments, :through => :posts
   has_and_belongs_to_many :audiences, -> { uniq }
   
   has_and_belongs_to_many :pals,
-    :join_table => 'pals',
-    :foreign_key => 'source_user_id',
-    :association_foreign_key => 'target_user_id'
+    :class_name => 'User',
+    :join_table => :pals,
+    :foreign_key => :source_user_id,
+    :association_foreign_key => :target_user_id
          
   def name
     given_name + " " + surname
@@ -31,6 +34,11 @@ class User < ActiveRecord::Base
     puts "Generating: User"
     puts "Name  = #{user.name}"
     puts "Email = #{user.email}"
+  end
+  
+  # Checks if the user is pals with the specified user
+  def pals?(user)
+    self == user || pals.any? { |p| p == user}
   end
 
 end

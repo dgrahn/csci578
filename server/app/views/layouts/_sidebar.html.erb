@@ -1,0 +1,9 @@
+<div class="panel">
+  <div class="panel-body">
+    <% if current_user %>
+		  <%= render "layouts/profile" %>
+    <% else %>
+	    <%= render "layouts/login" %>
+    <% end %>
+  </div>
+</div>

@@ -1,6 +1,4 @@
-<strong>Sent to: <%= audience.name %></strong>
-<ul>
-	<% audience.users.each do |user| %>
-    <li><%= user.name %></li>
-	<% end %>
-</ul>
+<strong><%= audience.name %></strong>
+<% audience.users.each do |user| %>
+  <%= profile_image user %>
+<% end %>

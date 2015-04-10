@@ -1,0 +1,31 @@
+<div id="profile">
+  <span class="pull-left"><%= profile_image current_user %></span>
+  <h1><%= current_user.name %></h1>
+</div>
+
+<table class="table">
+	<tbody>
+		<tr>
+			<th>Posts</th>
+			<td><%= current_user.posts.length %></td>
+		</tr>
+		<tr>
+			<th>Emotions</th>
+			<td><%= current_user.emotions.length %></td>
+		</tr>
+		<tr>
+			<th>Environments</th>
+			<td><%= current_user.environments.length %></td>
+		</tr>
+		<tr>
+			<th>Audiences</th>
+			<td><%= current_user.audiences.length %></td>
+		</tr>
+		<tr>
+			<th>Pals</th>
+			<td><%= current_user.pals.length %></td>
+		</tr>
+	</tbody>
+</table>
+
+<%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "btn btn-default navbar-btn" %>

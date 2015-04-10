@@ -46,7 +46,7 @@ class Generator
         Pal.generate
       end
       
-      delay = rand(1..4)
+      delay = rand() * 3
       puts "Delay: #{delay}"
       sleep delay 
     end

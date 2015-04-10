@@ -27,6 +27,12 @@ class Post < ActiveRecord::Base
     post = Post.new
     post.text = Faker::Lorem.sentences(rand(1..6), false).join(" ")
     post.user = User.random
+      
+    if [true, false].sample
+      Emotion.create :user    => Post.user,
+                     :post    => post,
+                     :emotion => Emotion::ALL.sample.last
+    end
     
     # Create emotions
     rand(0..5).times do
@@ -43,7 +49,7 @@ class Post < ActiveRecord::Base
     end
     
     # Create audience
-    if rand(0..3) == 0
+    if rand(1..3) == 1
       post.audience = Audience.random
     end
     
