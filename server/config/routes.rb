@@ -17,13 +17,13 @@ Rails.application.routes.draw do
   get 'user/:id/alerts', :to => 'alerts#user', :as => :user_alerts
 
   devise_for :users, :controllers => {
-    registrations: 'user/registrations'
+    :registrations => 'user/registrations'
   }
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   
-  root to: "home#index"
+  root :to => "home#index"
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

@@ -1,13 +1,13 @@
 class PostsController < ApplicationController
 
-  before_action :authenticate_user!
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:show, :index]
+  before_action :set_post, :only => [:show, :edit, :update, :destroy]
 
   respond_to :html
   respond_to :json
 
   def index
-    @posts = Post.all
+    @posts = Post.all.limit(20)
     respond_with(@posts)
   end
 

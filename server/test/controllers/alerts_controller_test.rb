@@ -18,30 +18,30 @@ class AlertsControllerTest < ActionController::TestCase
 
   test "should create alert" do
     assert_difference('Alert.count') do
-      post :create, alert: { post_id: @alert.post_id, user_id: @alert.user_id }
+      post :create, :alert => { :post_id => @alert.post_id, :user_id => @alert.user_id }
     end
 
     assert_redirected_to alert_path(assigns(:alert))
   end
 
   test "should show alert" do
-    get :show, id: @alert
+    get :show, :id => @alert
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @alert
+    get :edit, :id => @alert
     assert_response :success
   end
 
   test "should update alert" do
-    patch :update, id: @alert, alert: { post_id: @alert.post_id, user_id: @alert.user_id }
+    patch :update, :id => @alert, :alert => { :post_id => @alert.post_id, :user_id => @alert.user_id }
     assert_redirected_to alert_path(assigns(:alert))
   end
 
   test "should destroy alert" do
     assert_difference('Alert.count', -1) do
-      delete :destroy, id: @alert
+      delete :destroy, :id => @alert
     end
 
     assert_redirected_to alerts_path
