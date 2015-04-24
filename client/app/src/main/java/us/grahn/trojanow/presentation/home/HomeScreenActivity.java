@@ -1,13 +1,14 @@
 package us.grahn.trojanow.presentation.home;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 import us.grahn.trojanow.R;
 import us.grahn.trojanow.data.Post;
 import us.grahn.trojanow.logic.PostManager;
-import us.grahn.trojanow.presentation.PostFragment;
+import us.grahn.trojanow.presentation.post.read.PostFragment;
 
 /**
  * The default interface. Contains tabs which allows the user to switch between the feed, chat,
@@ -25,50 +26,79 @@ import us.grahn.trojanow.presentation.PostFragment;
  * @us.grahn.component FeedInterface
  * @us.grahn.tier      Presentation
  */
-public class HomeScreenActivity extends ActionBarActivity {
+public class HomeScreenActivity extends Activity {
+
+    private SwipeRefreshLayout swipe = null;
+    private LinearLayout postsLayout = null;
+    private int lastPostId = -1;
+
+    private class LoadPostsTask extends AsyncTask<Object, Void, List<Post>> {
+
+        @Override
+        protected List<Post> doInBackground(Object... params) {
+
+            try {
+                return PostManager.I.since(lastPostId);
+            } catch(Exception e) {
+                e.printStackTrace();
+                return Collections.emptyList();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Post> posts) {
+
+            // Skip if there no posts
+            if(!posts.isEmpty()) {
+
+                // Add a new layout to the top of the posts
+                final LinearLayout refreshLayout = new LinearLayout(HomeScreenActivity.this);
+                refreshLayout.setId(View.generateViewId());
+                refreshLayout.setOrientation(LinearLayout.VERTICAL);
+                postsLayout.addView(refreshLayout, 0);
+
+                // Fill the new layout with the new posts
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+                for (Post post : posts) {
+                    PostFragment fragment = PostFragment.newInstance(post);
+                    ft.add(refreshLayout.getId(), fragment, Integer.toString(post.getId()));
+                    lastPostId = post.getId();
+                }
+
+                ft.commit();
+            }
+
+            swipe.setRefreshing(false);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AsyncTask task = new AsyncTask<Object, Void, List<Post>>() {
+        // Load Views
+        this.swipe = (SwipeRefreshLayout) findViewById(R.id.posts_refresh);
+        this.postsLayout = (LinearLayout) findViewById(R.id.posts_layout);
+
+        // Load the icon
+        getActionBar().setIcon(R.drawable.icon);
+
+        // Load the posts
+        swipe.setRefreshing(true);
+        new LoadPostsTask().execute();
+
+        // Refresh Listener
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
-            protected List<Post> doInBackground(Object... params) {
-
-                try {
-                    return new PostManager().read();
-                } catch(Exception e) {
-                    e.printStackTrace();
-                    return Collections.emptyList();
-                }
+            public void onRefresh() {
+                swipe.setRefreshing(true);
+                new LoadPostsTask().execute();
             }
-
-            @Override
-            protected void onPostExecute(List<Post> posts) {
-                TextView numberOfPosts = (TextView) findViewById(R.id.number_of_posts);
-
-
-                Log.i("Post", "Loading posts 2");
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-                for(Post post : posts) {
-                    PostFragment fragment = PostFragment.newInstance(post);
-                    Log.i("Post", post.getId() + " = " + post.getText());
-                    ft.add(R.id.posts_layout, fragment, Integer.toString(post.getId()));
-                }
-
-                ft.commit();
-
-                numberOfPosts.setText("Number of Posts: " + posts.size());
-            }
-        };
-
-        task.execute();
-
+        });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

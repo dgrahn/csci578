@@ -1,40 +1,42 @@
 package us.grahn.trojanow.presentation.post.read;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import us.grahn.trojanow.R;
 import us.grahn.trojanow.data.Post;
 
 /**
- * A fragment used to display a single post.
- *
- * @us.grahn.class     PostFragment
- * @us.grahn.component ReadPostInterface
- * @us.grahn.tier      Presentation
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link PostFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link PostFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
 public class PostFragment extends Fragment {
 
-    private static final String PARAM_POST = "post";
+    private static final String POST = "post";
     private Post post;
+
     private OnFragmentInteractionListener mListener;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Create a new {@code PostFragment}
      *
-     * @param post the post to display
+     * @param  post the post to display
      * @return A new instance of fragment PostFragment.
      */
     public static PostFragment newInstance(Post post) {
         PostFragment fragment = new PostFragment();
         Bundle args = new Bundle();
-        args.putSerializable(PARAM_POST, post);
+        args.putSerializable(POST, post);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,8 +48,9 @@ public class PostFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            post = (Post) getArguments().getSerializable(PARAM_POST);
+            this.post = (Post) getArguments().get(POST);
         }
     }
 
@@ -55,23 +58,25 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post, container, false);
-    }
+        View root = inflater.inflate(R.layout.fragment_post, container, false);
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        final TextView author = (TextView) root.findViewById(R.id.post_author);
+        final TextView content = (TextView) root.findViewById(R.id.post_content);
+        final TextView date = (TextView) root.findViewById(R.id.post_date);
+
+        date.setText(post.getReadableTime());
+        author.setText(post.getAuthor().getDisplayName());
+        content.setText(post.getText());
+
+        return root;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+
+        if(activity instanceof OnFragmentInteractionListener) {
+            this.mListener = (OnFragmentInteractionListener) activity;
         }
     }
 
@@ -92,6 +97,7 @@ public class PostFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 

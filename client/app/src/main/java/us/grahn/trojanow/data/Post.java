@@ -1,8 +1,12 @@
 package us.grahn.trojanow.data;
 
+import android.text.format.DateUtils;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A data object storing information on posts. Will be populated by the
@@ -14,6 +18,7 @@ import java.util.List;
  */
 public class Post implements Serializable {
 
+    private final List<Emotion> emotions = new ArrayList<Emotion>();
     private User author = null;
     private String text = null;
     private Date timestamp = null;
@@ -38,9 +43,18 @@ public class Post implements Serializable {
     }
 
     /**
+     * Adds an emotion to the post.
+     *
+     * @param emotion the emotion for the post
+     */
+    public void addEmotion(Emotion emotion) {
+        this.emotions.add(emotion);
+    }
+
+    /**
      * Gets the author of the post.
      *
-     * @return the author of the post
+     * @return the Iauthor of the post
      */
     public User getAuthor() {
         return author;
@@ -56,6 +70,17 @@ public class Post implements Serializable {
     }
 
     /**
+     * Gets a human readable time.
+     *
+     * @return the time in a human readable format
+     */
+    public String getReadableTime() {
+        final long then = timestamp.getTime() + TimeZone.getDefault().getOffset(timestamp.getTime());
+        final long now  = System.currentTimeMillis();
+        return DateUtils.getRelativeTimeSpanString(then, now, DateUtils.SECOND_IN_MILLIS).toString();
+    }
+
+    /**
      * Gets the text of the post.
      *
      * @return the text of the post
@@ -65,12 +90,29 @@ public class Post implements Serializable {
     }
 
     /**
+     * Sets the text for the post.
+     * @param text
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    /**
      * Gets the timestamp of the post.
      *
      * @return the timestamp of the post
      */
     public Date getTimestamp() {
-        return null;
+        return timestamp;
+    }
+
+    /**
+     * Sets the timestamp for the post.
+     *
+     * @param timestamp
+     */
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     /**
@@ -83,6 +125,13 @@ public class Post implements Serializable {
     }
 
     /**
+     * Sets the audience for the post.
+     *
+     * @param audience the audience for the post
+     */
+    public void setAudience(Audience audience) {}
+
+    /**
      * Gets the environments for the post.
      *
      * @return the environments for the post
@@ -92,45 +141,6 @@ public class Post implements Serializable {
     }
 
     /**
-     * Gets the emotions for the post.
-     *
-     * @return the emotions for the post.
-     */
-    public List<Emotion> getEmotions() {
-        return null;
-    }
-
-    /**
-     * Gets the remotions for the post.
-     *
-     * @return the remotions for the post
-     */
-    public List<Emotion> getRemotions() {
-        return null;
-    }
-
-    /**
-     * Sets the text for the post.
-     * @param text
-     */
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    /**
-     * Sets the timestamp for the post.
-     * @param timestamp
-     */
-    public void setTimestamp(Date timestamp) {}
-
-    /**
-     * Sets the audience for the post.
-     *
-     * @param audience the audience for the post
-     */
-    public void setAudience(Audience audience) {}
-
-    /**
      * Sets the environments for the post.
      *
      * @param environments the environments for the post
@@ -138,17 +148,40 @@ public class Post implements Serializable {
     public void setEnvironments(List<Environment> environments) {}
 
     /**
-     * Sets the emotions for the post.
+     * Gets the emotions for the post.
      *
-     * @param emotions the emotions for the post
+     * @return the emotions for the post.
      */
-    public void setEmotions(List<Emotion> emotions) {}
+    public List<Emotion> getEmotions() {
+
+        List<Emotion> emotions = new ArrayList<Emotion>();
+
+        for(Emotion emotion : this.emotions) {
+            if(emotion.getUser().getId() != getAuthor().getId()) {
+                emotions.add(emotion);
+            }
+        }
+
+        return emotions;
+    }
+
 
     /**
-     * Sets the remotions for the post
+     * Gets the remotions for the post.
      *
-     * @param remotions the remotions for the post
+     * @return the remotions for the post
      */
-    public void setRemotions(List<Emotion> remotions) {}
+    public List<Emotion> getRemotions() {
+
+        List<Emotion> remotions = new ArrayList<Emotion>();
+
+        for(Emotion emotion : emotions) {
+            if(emotion.getUser().getId() != getAuthor().getId()) {
+                remotions.add(emotion);
+            }
+        }
+
+        return remotions;
+    }
 
 }

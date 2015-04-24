@@ -1,5 +1,8 @@
 package us.grahn.trojanow.logic;
 
+import android.util.JsonReader;
+
+import java.io.IOException;
 import java.util.List;
 
 import us.grahn.trojanow.data.Result;
@@ -13,6 +16,25 @@ import us.grahn.trojanow.data.User;
  * @us.grahn.tier      Logic
  */
 public class UserManager extends Manager {
+
+    private static final String SHOW = "user/%d.json";
+    private static final String ID = "id";
+    private static final String GIVEN_NAME = "given_name";
+    private static final String SURNAME = "surname";
+    private static final String IMAGE = "image";
+
+    /**
+     * The {@code UserManager} which should be used.
+     */
+    public static final UserManager I = new UserManager();
+
+    /**
+     * Constructs a new {@code UserManager}. Should not be accessible to the public. Use the
+     * constant {@link #I}.
+     */
+    private UserManager() {
+
+    }
 
     /**
      * Makes the current user and the specified user pals on the server.
@@ -39,8 +61,36 @@ public class UserManager extends Manager {
      * @param id the ID of the user to retrieve
      * @return the user retrieved from the server
      */
-    public User read(String id) {
-        return null;
+    public User read(int id) {
+
+        try {
+            JsonReader reader = Utilities.getReader(SHOW, id);
+
+            reader.beginObject();
+
+            User user = new User();
+
+            while(reader.hasNext()) {
+                String name = reader.nextName();
+
+                if (ID.equals(name)) {
+                    user.setId(reader.nextInt());
+                } else if (GIVEN_NAME.equals(name)) {
+                    user.setGivenName(reader.nextString());
+                } else if(SURNAME.equals(name)) {
+                    user.setSurname(reader.nextString());
+                } else if(IMAGE.equals(name)) {
+                    user.setImage(reader.nextString());
+                }
+            }
+
+            reader.close();
+
+            return user;
+
+        } catch(IOException e) {
+            return null;
+        }
     }
 
     @Override
@@ -52,4 +102,5 @@ public class UserManager extends Manager {
     public Result getLastResult() {
         return null;
     }
+
 }

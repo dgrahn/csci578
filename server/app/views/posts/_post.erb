@@ -3,7 +3,7 @@
     <%= profile_image post.user %>
 	  <%= post.user.name %>
 		<%= post.author_emotions.map { |e| e.emotion }.join(" ") %>
-		<span class="pull-right"><em><%= post.created_at.to_formatted_s :short %></em></span>
+		<span class="pull-right"><em><%= distance_of_time_in_words(Time.now, post.created_at) %></em></span>
 	</div>
 	<div class="panel-body">
 		<p><%= post.text %></p>

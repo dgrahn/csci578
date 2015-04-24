@@ -37,4 +37,7 @@ Rails.application.configure do
   
   # Device
   config.action_mailer.default_url_options = { :host => "localhost", :port => 3000 }
+  
+  # Set the time zone
+  #config.time_zone = 'Eastern Time (US & Canada)'
 end

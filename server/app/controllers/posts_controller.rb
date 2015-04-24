@@ -1,14 +1,20 @@
 class PostsController < ApplicationController
 
-  before_action :authenticate_user!, :except => [:show, :index]
+  before_action :authenticate_user!, :except => [:show, :index, :since]
   before_action :set_post, :only => [:show, :edit, :update, :destroy]
 
   respond_to :html
   respond_to :json
 
   def index
-    @posts = Post.all.limit(20)
-    respond_with(@posts)
+    @posts = Post.recent
+    respond_with @posts
+  end
+  
+  # Gets the post made since the ID
+  def since
+    @posts = Post.recent(params[:id])
+    respond_with @posts, :template => "posts/index"
   end
 
   def show

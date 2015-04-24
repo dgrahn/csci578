@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'home/generate'
+  get 'user/:id', :to => 'users#show'
   get 'user/:id/alerts', :to => 'alerts#user', :as => :user_alerts
+  get 'posts/since/:id', :to => 'posts#since'
 
   devise_for :users, :controllers => {
     :registrations => 'user/registrations'

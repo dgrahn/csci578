@@ -7,9 +7,16 @@ class Post < ActiveRecord::Base
   
   after_create :create_alerts
   
+  default_scope { order(:id => :desc) }
+  
   # Get most recent 20 posts
-  def self.recent
-    Post.order(:id => :desc).limit(20)
+  def self.recent(id = nil)
+
+    if id.nil? || id.to_i == -1
+      Post.limit(20)
+    else
+      Post.where("id > ?", id).limit(100)
+    end
   end
   
   # Gets random post

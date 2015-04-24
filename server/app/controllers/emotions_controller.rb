@@ -1,5 +1,6 @@
 class EmotionsController < ApplicationController
-  before_action :set_emotion, only: [:show, :edit, :update, :destroy]
+
+  before_action :set_emotion, :only => [:show, :edit, :update, :destroy]
 
   respond_to :html
 
