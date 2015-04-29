@@ -27,16 +27,37 @@
     <string name="title_activity_report">ReportActivity</string>
     <string name="title_activity_environment">EnvironmentActivity</string>
     <string name="title_activity_audience">AudienceActivity</string>
+    <string name="title_activity_authentication">Login to TrojaNow</string>
+    <string name="title_activity_sign_up">Create Account</string>
 
     <!-- Create Post -->
     <string name="field_anonymous">Anonymous</string>
 
-    <!-- Authentication -->
-    <string name="title_activity_authentication">Login to TrojaNow</string>
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
+    <!-- Button -->
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
+
+    <!-- Messages -->
     <string name="failed_login_title">Login Failed</string>
     <string name="failed_login_message">Your credentials are invalid!</string>
+
+    <string name="invalid_name_title">Invalid Name</string>
+    <string name="invalid_name_message">Please use a valid name (i.e. Mark Sloan)</string>
+
+    <string name="invalid_email_title">Invalid Email</string>
+    <string name="invalid_email_message">Please use a valid email.</string>
+
+    <string name="missing_password_title">Missing Password</string>
+    <string name="missing_password_message">Please provide a password.</string>
+
+    <string name="nonmatch_password_title">Invalid Passwords</string>
+    <string name="nonmatch_password_message">The passwords don\'t match.</string>
+
+
+    <!-- Hint -->
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password_confirm">Password (Confirm)</string>
+    <string name="hint_name">Name</string>
 </resources>

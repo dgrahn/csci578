@@ -61,6 +61,8 @@ public class HomeScreenActivity extends Activity {
             // Skip if there no posts
             if(posts != null && !posts.isEmpty()) {
 
+                Log.i("Posts", "Displaying Posts");
+
                 // Add a new layout to the top of the posts
                 final LinearLayout refreshLayout = new LinearLayout(HomeScreenActivity.this);
                 refreshLayout.setId(View.generateViewId());
@@ -78,6 +80,8 @@ public class HomeScreenActivity extends Activity {
 
 
                 ft.commitAllowingStateLoss();
+            } else {
+                Log.e("Posts", "Error Retrieving Posts");
             }
 
             swipe.setRefreshing(false);
@@ -121,8 +125,7 @@ public class HomeScreenActivity extends Activity {
      * @param view the view which called this method
      */
     public void login(View view) {
-        Intent intent = new Intent(this, AuthenticationActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, AuthenticationActivity.class));
     }
 
     /**
@@ -131,8 +134,7 @@ public class HomeScreenActivity extends Activity {
      * @param view the view which called this method
      */
     public void createPost(View view) {
-        Intent intent = new Intent(this, CreatePostActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, CreatePostActivity.class));
     }
 
     @Override

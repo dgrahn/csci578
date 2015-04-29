@@ -1,7 +1,9 @@
 class User::RegistrationsController < Devise::RegistrationsController
 
-  before_filter :configure_sign_up_params, only: [:create]
-  before_filter :configure_account_update_params, only: [:update]
+  before_filter :configure_sign_up_params, :only => [:create]
+  before_filter :configure_account_update_params, :only => [:update]
+  protect_from_forgery :with => :null_session, :if => Proc.new {|c| !c.request.format.json? }
+  respond_to :html, :json
 
   # GET /resource/sign_up
   # def new
@@ -9,9 +11,43 @@ class User::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    unless params[:format] == "json"
+      super
+      return
+    end
+    
+    # Delete the user if it matches our test email
+    if params[:email] == "test@grahn.us"
+      puts "Deleting Test User"
+      User.find_by_email(params[:email]).destroy
+    end
+    
+    # Create the user
+    user = User.new
+    user.given_name = params[:given_name]
+    user.surname    = params[:surname]
+    user.email      = params[:email]
+    user.password   = params[:password]
+    user.password_confirmation = params[:password]
+    
+    # Try to save
+    if user.save
+      result = Result::SIGNUP_SUCCESS
+    else
+      result = Result::SIGNUP_FAIL
+      result[:message] = user.errors.full_messages.join(', ')
+    end
+    
+    render :json => result.to_json
+
+  rescue Exception => e
+
+    puts "Error: #{e}"
+    result = Result::SIGNUP_FAIL
+    result[:message] = "Server error occurred."
+    render :json => result.to_json
+  end
 
   # GET /resource/edit
   # def edit
@@ -19,11 +55,9 @@ class User::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  def update
-    super
-    puts "#######################################################"
-    puts params
-  end
+  #def update
+  #  super
+  #end
 
   # DELETE /resource
   # def destroy

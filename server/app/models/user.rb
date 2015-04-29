@@ -30,10 +30,17 @@ class User < ActiveRecord::Base
   has_many :alerts
   
   before_save :ensure_authentication_token
+  before_save :ensure_image
  
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
+    end
+  end
+  
+  def ensure_image
+    if image.blank?
+      self.image = "user-#{rand(1..5)}.png"
     end
   end
          
@@ -49,7 +56,6 @@ class User < ActiveRecord::Base
     user = User.create :given_name => Faker::Name.first_name,
                        :surname    => Faker::Name.last_name,
                        :email      => Faker::Internet.email,
-                       :image      => "user-#{rand(1..5)}.png",
                        :password   => "password",
                        :password_confirmation => "password"
 

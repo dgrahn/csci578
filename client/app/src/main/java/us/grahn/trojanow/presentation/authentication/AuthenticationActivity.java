@@ -4,8 +4,10 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,12 +25,34 @@ import us.grahn.trojanow.logic.AuthenticationManager;
  */
 public class AuthenticationActivity extends AccountAuthenticatorActivity {
 
+    private final static int REQUEST_USER = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(AuthenticationManager.I.isLoggedIn(this)) {
+           finish();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(REQUEST_USER == requestCode && RESULT_OK == resultCode) {
+            final String username = data.getStringExtra("username");
+            final String password = data.getStringExtra("password");
+
+            Log.i("Login", "Username = " + username);
+            login(username, password);
+        }
     }
 
     public String getUsername() {
@@ -40,32 +64,54 @@ public class AuthenticationActivity extends AccountAuthenticatorActivity {
     }
 
     public void authenticate(View view) {
+        login(getUsername(), getPassword());
+    }
+
+    /**
+     * Login with a username and password.
+     *
+     * @param username the username with which to login
+     * @param password the password with which to login
+     */
+    private void login(final String username, final String password) {
 
         new AsyncTask<Void, Void, Result>() {
 
             @Override
             protected Result doInBackground(final Void... params) {
-                return AuthenticationManager.I.login(getUsername(), getPassword());
+                return AuthenticationManager.I.login(username, password);
             }
 
             @Override
             protected void onPostExecute(Result result) {
-                finishLogin(result);
+                finishLogin(username, password, result);
             }
 
         }.execute();
     }
 
+    /**
+     * Start the signup activity.
+     *
+     * @param view the view which called this method
+     */
     public void signup(View view) {
-
+        startActivityForResult(new Intent(this, SignUpActivity.class), REQUEST_USER);
     }
 
-    private void finishLogin(Result result) {
+    /**
+     * Finish the login AsyncTask.
+     *
+     * @param username the username which attempted to login
+     * @param password the password which attempted to login
+     * @param result the result of the login
+     */
+    private void finishLogin(final String username, final String password, final Result result) {
 
         if(result.getCode() == Result.LOGIN_SUCCESS) {
             final AccountManager manager = AccountManager.get(this);
-            Account account = new Account(getUsername(), "us.grahn.trojanow");
-            manager.addAccountExplicitly(account, getPassword(), null);
+            Account account = new Account(username, "us.grahn.trojanow");
+            manager.addAccountExplicitly(account, password, null);
             manager.setAuthToken(account, AuthenticationService.AUTH_TYPE, result.getMessage());
             finish();
         } else if(result.getCode() == Result.LOGIN_FAIL) {

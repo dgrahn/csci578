@@ -5,7 +5,9 @@ class Result
     {:code => code, :message => message}
   end
 
-  LOGIN_FAIL    = result(1, "Login Failed")
-  LOGIN_SUCCESS = result(2, "Login Success")
+  LOGIN_FAIL     = result(1, "Login Failed")
+  LOGIN_SUCCESS  = result(2, "Login Success")
+  SIGNUP_FAIL    = result(3, "Signup Failed")
+  SIGNUP_SUCCESS = result(4, "Signup Success")
    
 end

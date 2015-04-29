@@ -69,13 +69,20 @@
             android:label="@string/title_activity_authentication" >
         </activity>
 
-        <service android:name="AuthenticationService">
+        <service android:name=".AuthenticationService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                       android:resource="@xml/authenticator"/>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
         </service>
+
+        <activity
+            android:name=".presentation.authentication.SignUpActivity"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
     </application>
 
 </manifest>

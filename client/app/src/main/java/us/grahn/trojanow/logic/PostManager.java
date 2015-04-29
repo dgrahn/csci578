@@ -85,7 +85,10 @@ public class PostManager extends Manager {
     public List<Post> since(int id) {
 
         try {
+            Log.d("Posts", "Retrieving posts since " + id);
             JsonReader reader = Utilities.getReader(SINCE, id);
+
+            Log.d("Posts", "Reading posts since " + id);
             List<Post> posts = readArray(reader);
             reader.close();
             return posts;

@@ -15,11 +15,23 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
 
-    public static final int LOGIN_FAIL    = 1;
-    public static final int LOGIN_SUCCESS = 2;
+    public static final int LOGIN_FAIL     = 1;
+    public static final int LOGIN_SUCCESS  = 2;
+    public static final int SIGNUP_FAIL    = 3;
+    public static final int SIGNUP_SUCCESS = 4;
 
     private int code = -1;
     private String message = null;
+
+    public String getTitle() {
+        switch(getCode()) {
+            case LOGIN_FAIL:     return "Login Failed";
+            case LOGIN_SUCCESS:  return "Logic Succeeded";
+            case SIGNUP_FAIL:    return "Signup Failed";
+            case SIGNUP_SUCCESS: return "Signup Succeeded";
+            default: return "";
+        }
+    }
 
     /**
      * Gets the code for the result. This is the general category for the result.

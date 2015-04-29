@@ -1,7 +1,5 @@
 package us.grahn.trojanow.data;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 /**
@@ -18,6 +16,8 @@ public class User implements Serializable {
     private String givenName = null;
     private String surname = null;
     private String image = null;
+    private String password = null;
+    private String email = null;
 
     /**
      * Gets the ID for the user. This is used for OAuth2.0 login.
@@ -35,6 +35,42 @@ public class User implements Serializable {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * Gets the email for the user. Only used during creation of a new user.
+     *
+     * @return the new email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the email for the user. Only used during creation of a new user.
+     *
+     * @param email the new email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Gets the password for the user. Only used during creation of a new user.
+     *
+     * @return the new user
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets the password for the user. Only used during creation of a new user.
+     *
+     * @param password the new password
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**

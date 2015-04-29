@@ -7,6 +7,7 @@ import android.util.JsonReader;
 import java.io.IOException;
 
 import us.grahn.trojanow.data.Result;
+import us.grahn.trojanow.data.User;
 
 /**
  * A data manager for authentication. Handles authentication operations with the server.
@@ -18,6 +19,7 @@ import us.grahn.trojanow.data.Result;
 public class AuthenticationManager extends Manager {
 
     private static final String SIGN_IN = "users/sign_in.json";
+    private static final String SIGN_UP = "users.json";
 
     public static final AuthenticationManager I = new AuthenticationManager();
 
@@ -37,10 +39,29 @@ public class AuthenticationManager extends Manager {
         try {
             final JsonReader reader =
                     Utilities.getReaderPost(SIGN_IN, "username", username, "password", password);
-            Result result = Utilities.getResult(reader);
-            reader.close();
+            return Utilities.getResult(reader);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-            return result;
+    /**
+     * Attempts to create a user.
+     *
+     * @param user the user to create
+     * @return the
+     */
+    public Result signup(final User user) {
+
+        try {
+            final JsonReader reader =
+                    Utilities.getReaderPost(SIGN_UP,
+                            "given_name", user.getGivenName(),
+                            "surname", user.getSurname(),
+                            "email", user.getEmail(),
+                            "password", user.getPassword());
+            return Utilities.getResult(reader);
         } catch(IOException e) {
             e.printStackTrace();
             return null;

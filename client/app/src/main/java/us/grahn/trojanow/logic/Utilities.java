@@ -1,5 +1,7 @@
 package us.grahn.trojanow.logic;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.JsonReader;
@@ -22,6 +24,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import us.grahn.trojanow.R;
 import us.grahn.trojanow.data.Result;
 
 /**
@@ -111,7 +114,38 @@ public class Utilities {
     }
 
     /**
-     * Reads a result from a JsonReader.
+     * Show's a dialog with an OK button.
+     *
+     * @param context the context for the dialog
+     * @param title   the title for the dialog
+     * @param message the message for the dialog
+     */
+    public static void showDialog(final Context context, final int title, final int message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.setPositiveButton(R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * Shows a dialog from a result.
+     *
+     * @param context the context for the dialog
+     * @param result the result for the dialog
+     */
+    public static void showDialog(final Context context, final Result result) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(result.getMessage());
+        builder.setTitle(result.getTitle());
+        builder.setPositiveButton(R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * Reads a result from a JsonReader. Closes the reader.
      *
      * @param reader the reader from which to read the result
      * @return the result
@@ -134,6 +168,7 @@ public class Utilities {
         }
 
         reader.endObject();
+        reader.close();
 
         return result;
     }

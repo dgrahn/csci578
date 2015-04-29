@@ -12,14 +12,14 @@
     <color name="emotion_background">#FAFAFA</color>
     <color name="environment_background">@color/emotion_background</color>
 
-    <item type="dimen" name="padding_small">5dp</item>
-    <item type="dimen" name="padding">10dp</item>
-
-    <item type="dimen" name="round_button_diameter">56dp</item>
-    <item type="dimen" name="button_margin">16dp</item>
-    <item type="dimen" name="diameter">48dp</item>
-    <item type="dimen" name="elevation_low">1dp</item>
-    <item type="dimen" name="elevation_high">4dp</item>
+    <dimen name="padding_small">5dp</dimen>
+    <dimen name="padding">10dp</dimen>
+    <dimen name="form_bottom">@dimen/padding</dimen>
+    <dimen name="round_button_diameter">56dp</dimen>
+    <dimen name="button_margin">16dp</dimen>
+    <dimen name="diameter">48dp</dimen>
+    <dimen name="elevation_low">1dp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
 
     <style name="ActionBar" parent = "@android:style/Widget.Material.ActionBar.Solid">
         <item name="android:icon">@drawable/icon</item>
