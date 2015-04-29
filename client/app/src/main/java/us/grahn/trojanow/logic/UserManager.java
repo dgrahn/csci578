@@ -3,7 +3,9 @@ package us.grahn.trojanow.logic;
 import android.util.JsonReader;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import us.grahn.trojanow.data.Result;
 import us.grahn.trojanow.data.User;
@@ -22,6 +24,7 @@ public class UserManager extends Manager {
     private static final String GIVEN_NAME = "given_name";
     private static final String SURNAME = "surname";
     private static final String IMAGE = "image";
+    private final Map<Integer, User> userCache = new HashMap<Integer, User>();
 
     /**
      * The {@code UserManager} which should be used.
@@ -63,6 +66,8 @@ public class UserManager extends Manager {
      */
     public User read(int id) {
 
+        if(userCache.containsKey(id)) return userCache.get(id);
+
         try {
             JsonReader reader = Utilities.getReader(SHOW, id);
 
@@ -86,21 +91,13 @@ public class UserManager extends Manager {
 
             reader.close();
 
+            userCache.put(id, user);
+
             return user;
 
         } catch(IOException e) {
             return null;
         }
-    }
-
-    @Override
-    public Result refresh() {
-        return null;
-    }
-
-    @Override
-    public Result getLastResult() {
-        return null;
     }
 
 }

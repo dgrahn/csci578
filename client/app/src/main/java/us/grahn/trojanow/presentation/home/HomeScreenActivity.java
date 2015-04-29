@@ -1,13 +1,20 @@
 package us.grahn.trojanow.presentation.home;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Outline;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewOutlineProvider;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.Collections;
@@ -15,7 +22,10 @@ import java.util.List;
 
 import us.grahn.trojanow.R;
 import us.grahn.trojanow.data.Post;
+import us.grahn.trojanow.logic.AuthenticationManager;
 import us.grahn.trojanow.logic.PostManager;
+import us.grahn.trojanow.presentation.authentication.AuthenticationActivity;
+import us.grahn.trojanow.presentation.post.create.CreatePostActivity;
 import us.grahn.trojanow.presentation.post.read.PostFragment;
 
 /**
@@ -49,7 +59,7 @@ public class HomeScreenActivity extends Activity {
         protected void onPostExecute(List<Post> posts) {
 
             // Skip if there no posts
-            if(!posts.isEmpty()) {
+            if(posts != null && !posts.isEmpty()) {
 
                 // Add a new layout to the top of the posts
                 final LinearLayout refreshLayout = new LinearLayout(HomeScreenActivity.this);
@@ -66,12 +76,64 @@ public class HomeScreenActivity extends Activity {
                     lastPostId = post.getId();
                 }
 
-                ft.commit();
+
+                ft.commitAllowingStateLoss();
             }
 
             swipe.setRefreshing(false);
         }
-    };
+    }
+
+    private Menu menu;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_login) {
+            login(null);
+        } else if(item.getItemId() == R.id.action_logout) {
+            getAddPostButton().setVisibility(ImageButton.GONE);
+
+            AccountManager manager = AccountManager.get(this);
+            Account[] accounts = manager.getAccountsByType("us.grahn.trojanow");
+
+            for(Account account : accounts) {
+                manager.removeAccount(account, null, null);
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Opens the authentication view.
+     *
+     * @param view the view which called this method
+     */
+    public void login(View view) {
+        Intent intent = new Intent(this, AuthenticationActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Opens the create post view.
+     *
+     * @param view the view which called this method
+     */
+    public void createPost(View view) {
+        Intent intent = new Intent(this, CreatePostActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +144,22 @@ public class HomeScreenActivity extends Activity {
         this.swipe = (SwipeRefreshLayout) findViewById(R.id.posts_refresh);
         this.postsLayout = (LinearLayout) findViewById(R.id.posts_layout);
 
+        // Floating Action Button
+        ImageButton button = (ImageButton) findViewById(R.id.add_button);
+        button.setOutlineProvider(new ViewOutlineProvider() {
+
+            @Override
+            public void getOutline(View view, Outline outline) {
+                int diameter = getResources().getDimensionPixelSize(R.dimen.round_button_diameter);
+                outline.setOval(0, 0, diameter, diameter);
+            }
+        });
+
         // Load the icon
         getActionBar().setIcon(R.drawable.icon);
 
         // Load the posts
         swipe.setRefreshing(true);
-        new LoadPostsTask().execute();
 
         // Refresh Listener
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -101,24 +173,39 @@ public class HomeScreenActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onStart() {
+        super.onStart();
+
+        new LoadPostsTask().execute();
+
+        if(AuthenticationManager.I.isLoggedIn(this)) {
+            Log.i("PostButton", "Showing...");
+            getAddPostButton().setVisibility(ImageButton.VISIBLE);
+        } else {
+            Log.i("PostButton", "Hiding...");
+            getAddPostButton().setVisibility(ImageButton.GONE);
+        }
+    }
+
+    protected ImageButton getAddPostButton() {
+        return (ImageButton) findViewById(R.id.add_button);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        MenuItem login = (MenuItem) menu.findItem(R.id.action_login);
+        MenuItem logout = (MenuItem) menu.findItem(R.id.action_logout);
+
+        if(AuthenticationManager.I.isLoggedIn(this)) {
+            logout.setVisible(true);
+            login.setVisible(false);
+        } else {
+            logout.setVisible(false);
+            login.setVisible(true);
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
+
 }

@@ -18,7 +18,8 @@ import java.util.TimeZone;
  */
 public class Post implements Serializable {
 
-    private final List<Emotion> emotions = new ArrayList<Emotion>();
+    private List<Emotion> emotions = new ArrayList<Emotion>();
+    private List<Environment> environments = new ArrayList<Environment>();
     private User author = null;
     private String text = null;
     private Date timestamp = null;
@@ -49,6 +50,15 @@ public class Post implements Serializable {
      */
     public void addEmotion(Emotion emotion) {
         this.emotions.add(emotion);
+    }
+
+    /**
+     * Adds a list of emotions to the post.
+     *
+     * @param emotions the emotions for the post
+     */
+    public void setEmotions(List<Emotion> emotions) {
+        this.emotions = emotions;
     }
 
     /**
@@ -137,7 +147,7 @@ public class Post implements Serializable {
      * @return the environments for the post
      */
     public List<Environment> getEnvironments() {
-        return null;
+        return environments;
     }
 
     /**
@@ -145,7 +155,9 @@ public class Post implements Serializable {
      *
      * @param environments the environments for the post
      */
-    public void setEnvironments(List<Environment> environments) {}
+    public void setEnvironments(List<Environment> environments) {
+        this.environments = environments;
+    }
 
     /**
      * Gets the emotions for the post.
@@ -157,7 +169,7 @@ public class Post implements Serializable {
         List<Emotion> emotions = new ArrayList<Emotion>();
 
         for(Emotion emotion : this.emotions) {
-            if(emotion.getUser().getId() != getAuthor().getId()) {
+            if(emotion.getUser().getId() == getAuthor().getId()) {
                 emotions.add(emotion);
             }
         }

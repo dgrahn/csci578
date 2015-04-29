@@ -15,7 +15,7 @@ class Post < ActiveRecord::Base
     if id.nil? || id.to_i == -1
       Post.limit(20)
     else
-      Post.where("id > ?", id).limit(100)
+      Post.where("id > ?", id).limit(20)
     end
   end
   

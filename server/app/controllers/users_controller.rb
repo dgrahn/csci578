@@ -1,4 +1,3 @@
-
 class UsersController < ActionController::Base
   
   before_action :set_user, :only => [:show]

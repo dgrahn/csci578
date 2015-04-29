@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import us.grahn.trojanow.R;
+import us.grahn.trojanow.data.Emotion;
+import us.grahn.trojanow.data.Environment;
 import us.grahn.trojanow.data.Post;
 
 /**
@@ -60,13 +65,44 @@ public class PostFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_post, container, false);
 
-        final TextView author = (TextView) root.findViewById(R.id.post_author);
-        final TextView content = (TextView) root.findViewById(R.id.post_content);
-        final TextView date = (TextView) root.findViewById(R.id.post_date);
+        final TextView authorView = (TextView) root.findViewById(R.id.post_author);
+        final TextView contentView = (TextView) root.findViewById(R.id.post_content);
+        final TextView dateView = (TextView) root.findViewById(R.id.post_date);
+        final TextView remotionsView = (TextView) root.findViewById(R.id.remotions);
+        final TextView environmentsView = (TextView) root.findViewById(R.id.environments);
+        final LinearLayout remotionsLayout = (LinearLayout) root.findViewById(R.id.remotions_layout);
+        final LinearLayout environmentsLayout = (LinearLayout) root.findViewById(R.id.environments_layout);
 
-        date.setText(post.getReadableTime());
-        author.setText(post.getAuthor().getDisplayName());
-        content.setText(post.getText());
+        // Build Emotions Display
+        String emotionsString = "";
+        for(Emotion e : post.getEmotions()) emotionsString += e.getType();
+
+        // Build Remotions Display
+        String remotionsString = "";
+        List<Emotion> remotions = post.getRemotions();
+        for(int i = 0; i < remotions.size(); i++) {
+            Emotion re = remotions.get(i);
+            remotionsString += re.getType() + " " + re.getUser().getDisplayName();
+            if(i < remotions.size() - 1) remotionsString += "\n";
+        }
+
+        // Build Environments Display
+        String environmentsString = "";
+        List<Environment> environments = post.getEnvironments();
+        for(int i = 0; i < environments.size(); i++) {
+            Environment e = environments.get(i);
+            environmentsString += e.getType() + " " + e.getHumanReading();
+            if(i < environments.size() - 1) environmentsString += "\n";
+        }
+
+        dateView.setText(post.getReadableTime() + " // " + emotionsString);
+        authorView.setText(post.getAuthor().getDisplayName());
+        contentView.setText(post.getText());
+        remotionsView.setText(remotionsString);
+        environmentsView.setText(environmentsString);
+
+        if(remotions.isEmpty()) remotionsLayout.setVisibility(LinearLayout.GONE);
+        if(environments.isEmpty()) environmentsLayout.setVisibility(LinearLayout.GONE);
 
         return root;
     }

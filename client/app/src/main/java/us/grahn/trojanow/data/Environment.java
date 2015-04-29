@@ -12,13 +12,17 @@ import java.io.Serializable;
  */
 public class Environment implements Serializable {
 
+    private Post post = null;
+    private Type type = null;
+    private double reading = -1;
+
     /**
      * Gets the type of sensor which obtained the reading.
      *
      * @return the type of sensor which obtained the reading
      */
     public Type getType() {
-        return null;
+        return type;
     }
 
     /**
@@ -26,8 +30,17 @@ public class Environment implements Serializable {
      *
      * @return the reading from the sensor
      */
-    public long[] getReading() {
-        return null;
+    public double getReading() {
+        return reading;
+    }
+
+    /**
+     * Gets the human readable reading for the environment
+     *
+     * @return the human readable reading
+     */
+    public String getHumanReading() {
+        return Double.toString(reading);
     }
 
     /**
@@ -36,7 +49,7 @@ public class Environment implements Serializable {
      * @return the post for the environment
      */
     public Post getPost() {
-        return null;
+        return post;
     }
 
     /**
@@ -44,20 +57,26 @@ public class Environment implements Serializable {
      *
      * @param type the type of sensor which obtained the reading.
      */
-    public void setType(Type type) {}
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     /**
      * Sets the reading from the sensor.
      *
      * @param reading the reading from the sensor
      */
-    public void setReading(long[] reading) {}
+    public void setReading(double reading) {
+        this.reading = reading;
+    }
 
     /**
      * Sets the post which this environment is for.
      *
      * @param post the post which this environment is for
      */
-    public void setPost(Post post) {}
+    public void setPost(Post post) {
+        this.post = post;
+    }
 
 }

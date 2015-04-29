@@ -1,8 +1,36 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <color name="primary">#40C4FF</color>
+    <color name="primary_dark">#00B0FF</color>
+    <color name="secondary">#FABC3D</color>
+    <color name="accent">#E0E0E0</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#9E9E9E</color>
+    <color name="window_background">#FFFFFF</color>
+
+    <color name="post_background">#EEEEEE</color>
+    <color name="emotion_background">#FAFAFA</color>
+    <color name="environment_background">@color/emotion_background</color>
+
+    <item type="dimen" name="padding_small">5dp</item>
+    <item type="dimen" name="padding">10dp</item>
+
+    <item type="dimen" name="round_button_diameter">56dp</item>
+    <item type="dimen" name="button_margin">16dp</item>
+    <item type="dimen" name="diameter">48dp</item>
+    <item type="dimen" name="elevation_low">1dp</item>
+    <item type="dimen" name="elevation_high">4dp</item>
+
+    <style name="ActionBar" parent = "@android:style/Widget.Material.ActionBar.Solid">
+        <item name="android:icon">@drawable/icon</item>
+    </style>
+
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
     </style>
 
 </resources>

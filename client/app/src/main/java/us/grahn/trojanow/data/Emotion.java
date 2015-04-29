@@ -12,13 +12,17 @@ import java.io.Serializable;
  */
 public class Emotion implements Serializable {
 
+    private Post post = null;
+    private String type = null;
+    private User user = null;
+
     /**
      * Gets the type of emotion.
      *
      * @return the type of emotion
      */
-    public int getType() {
-        return -1;
+    public String getType() {
+        return type;
     }
 
     /**
@@ -27,7 +31,7 @@ public class Emotion implements Serializable {
      * @return the post which this emotion is for
      */
     public Post getPost() {
-        return null;
+        return post;
     }
 
     /**
@@ -36,7 +40,7 @@ public class Emotion implements Serializable {
      * @return the user who made the emotion
      */
     public User getUser() {
-        return null;
+        return user;
     }
 
     /**
@@ -44,19 +48,19 @@ public class Emotion implements Serializable {
      *
      * @param type the type of emotion
      */
-    public void setType(int type) {}
+    public void setType(String type) { this.type = type; }
 
     /**
      * Sets the post which the emotion is for.
      *
      * @param post the post which the emotion is for
      */
-    public void setPost(Post post) {}
+    public void setPost(Post post) { this.post = post; }
 
     /**
      * Sets the user who made the emotion.
      *
      * @param user the user who made the emotion
      */
-    public void setUser(User user) {}
+    public void setUser(User user) { this.user = user; }
 }

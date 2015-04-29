@@ -2,7 +2,6 @@ package us.grahn.trojanow.logic;
 
 import us.grahn.trojanow.data.Report;
 import us.grahn.trojanow.data.Result;
-import us.grahn.trojanow.logic.Manager;
 
 /**
  * A data manager for reports. Handles CRUD operations with the server.
@@ -23,13 +22,4 @@ public class ReportManager extends Manager {
         return null;
     }
 
-    @Override
-    public Result refresh() {
-        return null;
-    }
-
-    @Override
-    public Result getLastResult() {
-        return null;
-    }
 }

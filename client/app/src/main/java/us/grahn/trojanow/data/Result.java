@@ -15,13 +15,19 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
 
+    public static final int LOGIN_FAIL    = 1;
+    public static final int LOGIN_SUCCESS = 2;
+
+    private int code = -1;
+    private String message = null;
+
     /**
      * Gets the code for the result. This is the general category for the result.
      *
      * @return the code for the result
      */
     public int getCode() {
-        return -1;
+        return code;
     }
 
     /**
@@ -30,7 +36,7 @@ public class Result implements Serializable {
      * @return the message for the result
      */
     public String getMessage() {
-        return null;
+        return message;
     }
 
     /**
@@ -38,12 +44,16 @@ public class Result implements Serializable {
      *
      * @param code the code for the result
      */
-    public void setCode(int code) {}
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     /**
      * Sets the message for the result.
      *
      * @param message the message for the result
      */
-    public void setMessage(String message) {}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

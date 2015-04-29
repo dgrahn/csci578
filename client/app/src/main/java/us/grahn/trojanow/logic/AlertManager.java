@@ -5,7 +5,6 @@ import java.util.List;
 import us.grahn.trojanow.data.Alert;
 import us.grahn.trojanow.data.Result;
 import us.grahn.trojanow.data.User;
-import us.grahn.trojanow.logic.Manager;
 
 /**
  * A data manager for alerts. Handles CRUD operations with the server.
@@ -34,9 +33,4 @@ public class AlertManager extends Manager {
      */
     public List<Alert> read() { return null; }
 
-    @Override
-    public Result refresh() { return null; }
-
-    @Override
-    public Result getLastResult() { return null; }
 }

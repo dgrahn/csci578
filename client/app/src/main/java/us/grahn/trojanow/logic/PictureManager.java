@@ -2,7 +2,6 @@ package us.grahn.trojanow.logic;
 
 import android.media.Image;
 
-import us.grahn.trojanow.data.Result;
 import us.grahn.trojanow.data.User;
 
 /**
@@ -24,13 +23,4 @@ public class PictureManager extends Manager {
         return null;
     }
 
-    @Override
-    public Result refresh() {
-        return null;
-    }
-
-    @Override
-    public Result getLastResult() {
-        return null;
-    }
 }

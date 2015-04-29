@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150410221055) do
     t.datetime "updated_at"
     t.string   "given_name"
     t.string   "surname"
+    t.string   "authentication_token"
     t.string   "image"
   end
 

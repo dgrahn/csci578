@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   get 'posts/since/:id', :to => 'posts#since'
 
   devise_for :users, :controllers => {
-    :registrations => 'user/registrations'
+    :registrations => 'user/registrations',
+    :sessions => 'user/sessions'
   }
   
   # The priority is based upon order of creation: first created -> highest priority.

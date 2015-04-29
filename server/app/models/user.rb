@@ -28,6 +28,14 @@ class User < ActiveRecord::Base
                           :association_foreign_key => :source_user_id
                           
   has_many :alerts
+  
+  before_save :ensure_authentication_token
+ 
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
          
   def name
     given_name + " " + surname
@@ -53,6 +61,15 @@ class User < ActiveRecord::Base
   # Checks if the user is pals with the specified user
   def pals?(user)
     self == user || pals.any? { |p| p == user}
+  end
+
+private
+  
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
   end
 
 end

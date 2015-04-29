@@ -37,6 +37,8 @@ public class PostManager extends Manager {
     private static final String TEXT = "text";
     private static final String USER_ID = "user_id";
     private static final String CREATED_AT = "created_at";
+    private static final String EMOTIONS = "emotions";
+    private static final String ENVIRONMENTS = "environments";
 
     /**
      * Constructs a new {@code PostManager}. Should not be accessible to the public. Use the
@@ -128,6 +130,10 @@ public class PostManager extends Manager {
                     } catch(ParseException e) {
                         Log.wtf("Couldn't parse date", e);
                     }
+                } else if(EMOTIONS.equals(name)) {
+                    post.setEmotions(EmotionManager.I.readArray(reader, post));
+                } else if(ENVIRONMENTS.equals(name)) {
+                    post.setEnvironments(EnvironmentManager.I.readArray(reader, post));
                 }
             }
 
@@ -150,13 +156,4 @@ public class PostManager extends Manager {
         return null;
     }
 
-    @Override
-    public Result refresh() {
-        return null;
-    }
-
-    @Override
-    public Result getLastResult() {
-        return null;
-    }
 }

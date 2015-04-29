@@ -1,5 +1,11 @@
 package us.grahn.trojanow.logic;
 
+import android.accounts.AccountManager;
+import android.content.Context;
+import android.util.JsonReader;
+
+import java.io.IOException;
+
 import us.grahn.trojanow.data.Result;
 
 /**
@@ -11,15 +17,34 @@ import us.grahn.trojanow.data.Result;
  */
 public class AuthenticationManager extends Manager {
 
+    private static final String SIGN_IN = "users/sign_in.json";
+
+    public static final AuthenticationManager I = new AuthenticationManager();
+
+    private AuthenticationManager() {
+
+    }
+
     /**
      * Attempt to login a user.
      *
-     * @param userId       the user id of the user to login
-     * @param refreshToken the refresh token of the user to login
+     * @param username the username with which to login
+     * @param password the password with which to login
      * @return the result of the transaction with the server
      */
-    public Result login(String userId, String refreshToken) {
-        return null;
+    public Result login(String username, final String password) {
+
+        try {
+            final JsonReader reader =
+                    Utilities.getReaderPost(SIGN_IN, "username", username, "password", password);
+            Result result = Utilities.getResult(reader);
+            reader.close();
+
+            return result;
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -36,17 +61,10 @@ public class AuthenticationManager extends Manager {
      *
      * @return the result of the transaction with the server
      */
-    public Result isLoggedIn() {
-        return null;
+    public boolean isLoggedIn(Context context) {
+
+        AccountManager manager = AccountManager.get(context);
+        return manager.getAccountsByType("us.grahn.trojanow").length != 0;
     }
 
-    @Override
-    public Result refresh() {
-        return null;
-    }
-
-    @Override
-    public Result getLastResult() {
-        return null;
-    }
 }

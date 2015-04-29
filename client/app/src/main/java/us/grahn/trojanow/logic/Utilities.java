@@ -4,6 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.JsonReader;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +19,10 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+
+import us.grahn.trojanow.data.Result;
 
 /**
  * Collection of utility methods.
@@ -66,6 +78,64 @@ public class Utilities {
         URLConnection urlConnection = url.openConnection();
         InputStream in = new BufferedInputStream(urlConnection.getInputStream());
         return new JsonReader(new InputStreamReader(in, "UTF-8"));
+    }
+
+    /**
+     * Posts values to a URL and returns the {@link JsonReader}
+     * @param path
+     * @param args
+     * @return
+     * @throws IOException
+     */
+    public static JsonReader getReaderPost(final String path, final String... args) throws IOException {
+
+        if(args.length % 2 != 0) throw new IllegalArgumentException("Invalid key/value combo.");
+
+        // Build the post
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(getURL(path).toExternalForm());
+
+        // Build the ARgs
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+        for(int i = 0; i < args.length; i += 2) {
+            nameValuePairs.add(new BasicNameValuePair(args[i], args[i + 1]));
+        }
+
+        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+        // Issue the command / Get the response
+        HttpResponse response = httpClient.execute(httpPost);
+        InputStream in = response.getEntity().getContent();
+        return new JsonReader(new InputStreamReader(in, "UTF-8"));
+    }
+
+    /**
+     * Reads a result from a JsonReader.
+     *
+     * @param reader the reader from which to read the result
+     * @return the result
+     * @throws IOException if there is an exception in the reader
+     */
+    public static Result getResult(JsonReader reader) throws IOException {
+
+        reader.beginObject();
+
+        Result result = new Result();
+
+        while(reader.hasNext()) {
+            String name = reader.nextName();
+
+            if("code".equals(name)) {
+                result.setCode(reader.nextInt());
+            } else if("message".equals(name)) {
+                result.setMessage(reader.nextString());
+            }
+        }
+
+        reader.endObject();
+
+        return result;
     }
 
     /**
