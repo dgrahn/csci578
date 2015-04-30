@@ -15,21 +15,34 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
 
+    public static final int IOEXCEPTION    = -1;
+
     public static final int LOGIN_FAIL     = 1;
     public static final int LOGIN_SUCCESS  = 2;
     public static final int SIGNUP_FAIL    = 3;
     public static final int SIGNUP_SUCCESS = 4;
+    public static final int POST_FAIL      = 5;
+    public static final int POST_SUCCESS   = 6;
+
+    public static final Result SERVER_FAILURE = new Result();
+    static {
+        SERVER_FAILURE.setCode(IOEXCEPTION);
+        SERVER_FAILURE.setMessage("An exception occurred on the server.");
+    }
 
     private int code = -1;
     private String message = null;
 
     public String getTitle() {
         switch(getCode()) {
+            case IOEXCEPTION:    return "Server Error";
             case LOGIN_FAIL:     return "Login Failed";
             case LOGIN_SUCCESS:  return "Logic Succeeded";
             case SIGNUP_FAIL:    return "Signup Failed";
             case SIGNUP_SUCCESS: return "Signup Succeeded";
-            default: return "";
+            case POST_FAIL:      return "Post Failed";
+            case POST_SUCCESS:   return "Post Succeeded";
+            default: return "Hey!";
         }
     }
 

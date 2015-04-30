@@ -2,6 +2,7 @@ package us.grahn.trojanow.presentation.post.read;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,14 +17,10 @@ import us.grahn.trojanow.R;
 import us.grahn.trojanow.data.Emotion;
 import us.grahn.trojanow.data.Environment;
 import us.grahn.trojanow.data.Post;
+import us.grahn.trojanow.presentation.post.EnvironmentFragment;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PostFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment for displaying posts.
  */
 public class PostFragment extends Fragment {
 
@@ -69,9 +66,7 @@ public class PostFragment extends Fragment {
         final TextView contentView = (TextView) root.findViewById(R.id.post_content);
         final TextView dateView = (TextView) root.findViewById(R.id.post_date);
         final TextView remotionsView = (TextView) root.findViewById(R.id.remotions);
-        final TextView environmentsView = (TextView) root.findViewById(R.id.environments);
         final LinearLayout remotionsLayout = (LinearLayout) root.findViewById(R.id.remotions_layout);
-        final LinearLayout environmentsLayout = (LinearLayout) root.findViewById(R.id.environments_layout);
 
         // Build Emotions Display
         String emotionsString = "";
@@ -87,22 +82,19 @@ public class PostFragment extends Fragment {
         }
 
         // Build Environments Display
-        String environmentsString = "";
-        List<Environment> environments = post.getEnvironments();
-        for(int i = 0; i < environments.size(); i++) {
-            Environment e = environments.get(i);
-            environmentsString += e.getType() + " " + e.getHumanReading();
-            if(i < environments.size() - 1) environmentsString += "\n";
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        for(Environment environment : post.getEnvironments()) {
+            EnvironmentFragment fragment = EnvironmentFragment.newInstance(environment);
+            ft.add(R.id.environments_layout, fragment, Integer.toString(fragment.getId()));
         }
+        ft.commit();
 
         dateView.setText(post.getReadableTime() + " // " + emotionsString);
         authorView.setText(post.getAuthor().getDisplayName());
         contentView.setText(post.getText());
         remotionsView.setText(remotionsString);
-        environmentsView.setText(environmentsString);
 
         if(remotions.isEmpty()) remotionsLayout.setVisibility(LinearLayout.GONE);
-        if(environments.isEmpty()) environmentsLayout.setVisibility(LinearLayout.GONE);
 
         return root;
     }

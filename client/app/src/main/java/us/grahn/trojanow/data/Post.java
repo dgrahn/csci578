@@ -24,6 +24,25 @@ public class Post implements Serializable {
     private String text = null;
     private Date timestamp = null;
     private int id = -1;
+    private boolean anonymous = false;
+
+    /**
+     * Checks if the post is anonymous
+     *
+     * @return true if the post is anonymous; false otherwise
+     */
+    public boolean isAnonymous() {
+        return anonymous;
+    }
+
+    /**
+     * Sets if the post is anonymous.
+     *
+     * @param anonymous the new value for if the post is anonymous
+     */
+    public void setAnonymous(final boolean anonymous) {
+        this.anonymous = anonymous;
+    }
 
     /**
      * Gets the ID of the post.
@@ -50,15 +69,6 @@ public class Post implements Serializable {
      */
     public void addEmotion(Emotion emotion) {
         this.emotions.add(emotion);
-    }
-
-    /**
-     * Adds a list of emotions to the post.
-     *
-     * @param emotions the emotions for the post
-     */
-    public void setEmotions(List<Emotion> emotions) {
-        this.emotions = emotions;
     }
 
     /**
@@ -166,6 +176,8 @@ public class Post implements Serializable {
      */
     public List<Emotion> getEmotions() {
 
+        if(getAuthor() == null) return emotions;
+
         List<Emotion> emotions = new ArrayList<Emotion>();
 
         for(Emotion emotion : this.emotions) {
@@ -177,6 +189,14 @@ public class Post implements Serializable {
         return emotions;
     }
 
+    /**
+     * Adds a list of emotions to the post.
+     *
+     * @param emotions the emotions for the post
+     */
+    public void setEmotions(List<Emotion> emotions) {
+        this.emotions = emotions;
+    }
 
     /**
      * Gets the remotions for the post.

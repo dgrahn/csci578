@@ -40,7 +40,7 @@ public class Environment implements Serializable {
      * @return the human readable reading
      */
     public String getHumanReading() {
-        return Double.toString(reading);
+        return String.format("%.2f %s", getReading(), getType().getUnit());
     }
 
     /**

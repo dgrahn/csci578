@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:background="@color/environment_background"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:padding="@dimen/padding_small"
+             android:layout_marginBottom="@dimen/padding"
+             tools:context="us.grahn.trojanow.presentation.post.EnvironmentFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="[Type]"
+        android:textStyle="bold"
+        android:id="@+id/environment_type"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[Reading]"
+        android:layout_gravity="right"
+        android:id="@+id/environment_reading"/>
+
+</FrameLayout>

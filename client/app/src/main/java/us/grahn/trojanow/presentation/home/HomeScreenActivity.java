@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Outline;
 import android.os.AsyncTask;
@@ -38,9 +39,14 @@ import us.grahn.trojanow.presentation.post.read.PostFragment;
  */
 public class HomeScreenActivity extends Activity {
 
+    private static Context appContext;
     private SwipeRefreshLayout swipe = null;
     private LinearLayout postsLayout = null;
     private int lastPostId = -1;
+
+    public static Context getAppContext() {
+        return appContext;
+    }
 
     private class LoadPostsTask extends AsyncTask<Object, Void, List<Post>> {
 
@@ -78,8 +84,9 @@ public class HomeScreenActivity extends Activity {
                     lastPostId = post.getId();
                 }
 
-
                 ft.commitAllowingStateLoss();
+                postsLayout.invalidate();
+                postsLayout.requestLayout();
             } else {
                 Log.e("Posts", "Error Retrieving Posts");
             }
@@ -142,6 +149,8 @@ public class HomeScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        HomeScreenActivity.appContext = getApplicationContext();
+
         // Load Views
         this.swipe = (SwipeRefreshLayout) findViewById(R.id.posts_refresh);
         this.postsLayout = (LinearLayout) findViewById(R.id.posts_layout);
@@ -180,7 +189,7 @@ public class HomeScreenActivity extends Activity {
 
         new LoadPostsTask().execute();
 
-        if(AuthenticationManager.I.isLoggedIn(this)) {
+        if(AuthenticationManager.I.isLoggedIn()) {
             Log.i("PostButton", "Showing...");
             getAddPostButton().setVisibility(ImageButton.VISIBLE);
         } else {
@@ -199,7 +208,7 @@ public class HomeScreenActivity extends Activity {
         MenuItem login = (MenuItem) menu.findItem(R.id.action_login);
         MenuItem logout = (MenuItem) menu.findItem(R.id.action_logout);
 
-        if(AuthenticationManager.I.isLoggedIn(this)) {
+        if(AuthenticationManager.I.isLoggedIn()) {
             logout.setVisible(true);
             login.setVisible(false);
         } else {

@@ -2,8 +2,7 @@ class User::RegistrationsController < Devise::RegistrationsController
 
   before_filter :configure_sign_up_params, :only => [:create]
   before_filter :configure_account_update_params, :only => [:update]
-  protect_from_forgery :with => :null_session, :if => Proc.new {|c| !c.request.format.json? }
-  respond_to :html, :json
+  respond_to :json, :only => [:create_mobile]
 
   # GET /resource/sign_up
   # def new
@@ -11,16 +10,16 @@ class User::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  def create
-    unless params[:format] == "json"
-      super
-      return
-    end
+  #def create
+  #  super
+  #end
     
+  def create_mobile
     # Delete the user if it matches our test email
     if params[:email] == "test@grahn.us"
       puts "Deleting Test User"
-      User.find_by_email(params[:email]).destroy
+      user = User.find_by_email("test@grahn.us")
+      user.destroy if user
     end
     
     # Create the user

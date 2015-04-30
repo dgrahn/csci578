@@ -39,7 +39,7 @@ public class AuthenticationActivity extends AccountAuthenticatorActivity {
     protected void onStart() {
         super.onStart();
 
-        if(AuthenticationManager.I.isLoggedIn(this)) {
+        if(AuthenticationManager.I.isLoggedIn()) {
            finish();
         }
     }

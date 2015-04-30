@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   get 'user/:id', :to => 'users#show'
   get 'user/:id/alerts', :to => 'alerts#user', :as => :user_alerts
   get 'posts/since/:id', :to => 'posts#since'
+  
+  scope :format => true, :contrains => { :format => 'json' } do
+    post 'posts/create', :to => 'posts#create_mobile'
+    
+    devise_scope :user do
+      post 'users', :to => 'user/registrations#create_mobile'
+    end
+  end
 
   devise_for :users, :controllers => {
     :registrations => 'user/registrations',

@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
-    tools:context="us.grahn.trojanow.presentation.post.create.CreatePostActivity">
+    android:padding="@dimen/padding"
+    tools:context="us.grahn.trojanow.presentation.post.create.CreatePostActivity"
+    android:weightSum="1">
 
     <EditText
         android:layout_width="match_parent"
@@ -12,12 +13,64 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/create_post_text"
-        android:autoText="false"/>
+        android:autoText="false"
+        android:elegantTextHeight="true"/>
 
-    <Switch
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding">
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/field_anonymous"
+            android:id="@+id/create_post_anonymous"
+            android:layout_gravity="left"
+            android:checked="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_post_emotions"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="right"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_post_environments"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/field_anonymous"
-        android:id="@+id/create_post_anonymous"
-        android:checked="false"/>
+        android:layout_gravity="right">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_sensor"
+            android:onClick="addSensor"
+            android:layout_gravity="right"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_emotion"
+            android:onClick="addEmotion"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_create_post"
+        android:onClick="post"
+        android:layout_gravity="right"
+        android:backgroundTint="@color/secondary"/>
+
 </LinearLayout>

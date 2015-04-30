@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import us.grahn.trojanow.data.Emotion;
+import us.grahn.trojanow.data.Environment;
 import us.grahn.trojanow.data.Post;
 import us.grahn.trojanow.data.Result;
 import us.grahn.trojanow.data.User;
@@ -28,8 +31,9 @@ public class PostManager extends Manager {
      */
     public static final PostManager I = new PostManager();
 
-    private static String INDEX = "posts.json";
-    private static String SINCE = "posts/since/%d.json";
+    private static String INDEX  = "posts.json";
+    private static String SINCE  = "posts/since/%d.json";
+    private static String CREATE = "posts/create.json";
 
     private static SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
@@ -55,7 +59,36 @@ public class PostManager extends Manager {
      * @return the result of the transaction with the server
      */
     public Result create(Post post) {
-        return null;
+
+        try {
+            List<String> params = new ArrayList<String>();
+            params.add("token");
+            params.add(AuthenticationManager.I.getToken());
+            params.add("text");
+            params.add(post.getText());
+            params.add("anonymous");
+            params.add(Boolean.toString(post.isAnonymous()));
+
+            int i = 0;
+            for(Environment environment : post.getEnvironments()) {
+                params.add("environment-" + i + "-type");
+                params.add(environment.getType().toString());
+                params.add("environment-" + i++ + "-reading");
+                params.add(Double.toString(environment.getReading()));
+            }
+
+            i = 0;
+            for(Emotion emotion : post.getEmotions()) {
+                params.add("emotion-" + i++);
+                params.add(Emotion.Type.get(emotion.getType()).getId());
+            }
+
+            JsonReader reader = Utilities.getReaderPost(CREATE, params.toArray(new String[params.size()]));
+            return Utilities.getResult(reader);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return Result.SERVER_FAILURE;
+        }
     }
 
     /**
@@ -72,7 +105,7 @@ public class PostManager extends Manager {
             return posts;
         } catch(IOException e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -94,7 +127,7 @@ public class PostManager extends Manager {
             return posts;
         } catch(IOException e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 

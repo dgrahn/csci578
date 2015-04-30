@@ -10,7 +10,7 @@
 
     <color name="post_background">#EEEEEE</color>
     <color name="emotion_background">#FAFAFA</color>
-    <color name="environment_background">@color/emotion_background</color>
+    <color name="environment_background">#F5F5F5</color>
 
     <dimen name="padding_small">5dp</dimen>
     <dimen name="padding">10dp</dimen>

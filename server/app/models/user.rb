@@ -31,6 +31,11 @@ class User < ActiveRecord::Base
   
   before_save :ensure_authentication_token
   before_save :ensure_image
+  
+  # Get the anonymous user
+  def self.anonymous
+    User.find_by_email("anonymous@anonymous.com")
+  end
  
   def ensure_authentication_token
     if authentication_token.blank?
@@ -45,7 +50,11 @@ class User < ActiveRecord::Base
   end
          
   def name
-    given_name + " " + surname
+    if surname == "Anonymous"
+      surname
+    else
+      given_name + " " + surname
+    end
   end
 
   def self.random

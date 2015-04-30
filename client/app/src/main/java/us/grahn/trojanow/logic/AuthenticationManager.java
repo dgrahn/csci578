@@ -1,13 +1,20 @@
 package us.grahn.trojanow.logic;
 
+import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.Context;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
 import android.util.JsonReader;
 
 import java.io.IOException;
 
+import us.grahn.trojanow.AuthenticationService;
 import us.grahn.trojanow.data.Result;
 import us.grahn.trojanow.data.User;
+import us.grahn.trojanow.presentation.home.HomeScreenActivity;
 
 /**
  * A data manager for authentication. Handles authentication operations with the server.
@@ -42,7 +49,7 @@ public class AuthenticationManager extends Manager {
             return Utilities.getResult(reader);
         } catch(IOException e) {
             e.printStackTrace();
-            return null;
+            return Result.SERVER_FAILURE;
         }
     }
 
@@ -64,7 +71,7 @@ public class AuthenticationManager extends Manager {
             return Utilities.getResult(reader);
         } catch(IOException e) {
             e.printStackTrace();
-            return null;
+            return Result.SERVER_FAILURE;
         }
     }
 
@@ -82,10 +89,32 @@ public class AuthenticationManager extends Manager {
      *
      * @return the result of the transaction with the server
      */
-    public boolean isLoggedIn(Context context) {
+    public boolean isLoggedIn() {
 
-        AccountManager manager = AccountManager.get(context);
+        AccountManager manager = AccountManager.get(HomeScreenActivity.getAppContext());
         return manager.getAccountsByType("us.grahn.trojanow").length != 0;
+    }
+
+    public String getToken() {
+
+        // Get Account
+        AccountManager manager = AccountManager.get(HomeScreenActivity.getAppContext());
+        Account account = manager.getAccountsByType("us.grahn.trojanow")[0];
+
+        // Get the auth token
+        Bundle options = null;
+        Activity activity = null;
+        AccountManagerCallback<Bundle> callback = null;
+        Handler handler = null;
+        AccountManagerFuture<Bundle> future = manager.getAuthToken(
+                account, AuthenticationService.AUTH_TYPE, options, activity, callback, handler);
+
+        try {
+            return future.getResult().getString(AccountManager.KEY_AUTHTOKEN);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

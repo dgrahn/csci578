@@ -128,7 +128,11 @@ public class User implements Serializable {
      * @return the display name of the user
      */
     public String getDisplayName() {
-        return givenName + " " + surname;
+        if("Anonymous".equals(surname)) {
+            return surname;
+        } else {
+            return givenName + " " + surname;
+        }
     }
 
     /**

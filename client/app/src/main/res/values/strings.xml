@@ -17,6 +17,7 @@
 
     <!-- Common -->
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Home Screen -->
     <string name="login_notification">Want the full experience?</string>
@@ -36,6 +37,9 @@
     <!-- Button -->
     <string name="button_login">Login</string>
     <string name="button_signup">Sign Up</string>
+    <string name="button_create_post">Create</string>
+    <string name="button_add_sensor">Add Environment</string>
+    <string name="button_add_emotion">Add Emotion</string>
 
     <!-- Messages -->
     <string name="failed_login_title">Login Failed</string>
